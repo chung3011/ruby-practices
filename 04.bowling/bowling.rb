@@ -1,27 +1,17 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-score = ARGV[0]
-
-def check_valid(score)
-  if score.nil?
-    false
-  else
-    scores = []
-    score.split(',').each do |s|
-      if s == 'X'
-        scores.push(10, 0)
-      else
-        scores.push(s.to_i)
-      end
+def create_frames(score)
+  frames = []
+  score.split(',').each do |s|
+    if s == 'X'
+      frames.push(10, 0)
+    else
+      frames.push(s.to_i)
     end
-
-    frames = scores.each_slice(2).to_a
-    frames.each { |frame| return false if frame.sum > 10 }
   end
+  frames.each_slice(2).to_a
 end
-
-frames = check_valid(score)
 
 def total_score(frames)
   point = 0
@@ -41,4 +31,10 @@ def total_score(frames)
   puts point
 end
 
-frames ? total_score(frames) : (puts 'invalid score')
+def main
+  score = ARGV[0]
+  frames = create_frames(score)
+  total_score(frames)
+end
+
+main
