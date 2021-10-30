@@ -5,16 +5,17 @@ directory = ARGV
 COLUMNS = 3
 
 def file_list(directory)
-  list = directory.empty? ? Dir.glob('*').sort : Dir.glob("#{directory[0]}/*").sort.map { |fname| fname[(directory[0].length + 1)..] }
+  list = directory.empty? ? Dir.glob('*').sort : Dir.glob('*', base: (directory[0]).to_s).sort
   print_list(list, COLUMNS)
 end
 
 def print_list(list, columns)
   rows = (list.size.to_f / columns).ceil
-  list = list.each_slice(rows).map { |n| n }
   rows.times do |row|
     columns.times do |col|
-      print list[col][row].to_s.ljust(20)
+      break if row + 1 + rows * col > list.size
+
+      print list[row + rows * col].ljust(20)
     end
     puts
   end
