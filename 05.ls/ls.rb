@@ -1,11 +1,17 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-directory = ARGV
+require 'optparse'
+
 COLUMNS = 3
 
 def file_list(directory)
-  list = directory.empty? ? Dir.glob('*').sort : Dir.glob('*', base: directory[0]&.to_s).sort
+  options = ARGV.getopts('a')
+  list = if options['a']
+           directory.empty? ? Dir.glob('*', File::FNM_DOTMATCH).sort : Dir.glob('*', File::FNM_DOTMATCH, base: directory[0]&.to_s).sort
+         else
+           directory.empty? ? Dir.glob('*').sort : Dir.glob('*', base: directory[0]&.to_s).sort
+         end
   print_list(list, COLUMNS)
 end
 
@@ -21,4 +27,4 @@ def print_list(list, columns)
   end
 end
 
-file_list(directory)
+file_list(ARGV)
