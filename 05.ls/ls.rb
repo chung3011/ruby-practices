@@ -8,8 +8,8 @@ COLUMNS = 3
 def file_list(directory)
   options = ARGV.getopts('a')
   base = directory.empty? ? '' : directory[0]&.to_s
-  hidden_files = options['a'] ? File::FNM_DOTMATCH : ''
-  list = Dir.glob('*', hidden_files, base: base).sort
+  flags = options['a'] ? File::FNM_DOTMATCH : 0
+  list = Dir.glob('*', flags, base: base).sort
   print_list(list, COLUMNS)
 end
 
