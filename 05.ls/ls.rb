@@ -7,11 +7,9 @@ COLUMNS = 3
 
 def file_list(directory)
   options = ARGV.getopts('a')
-  list = if options['a']
-           directory.empty? ? Dir.glob('*', File::FNM_DOTMATCH).sort : Dir.glob('*', File::FNM_DOTMATCH, base: directory[0]&.to_s).sort
-         else
-           directory.empty? ? Dir.glob('*').sort : Dir.glob('*', base: directory[0]&.to_s).sort
-         end
+  base = directory.empty? ? '' : directory[0]&.to_s
+  hidden_files = options['a'] ? File::FNM_DOTMATCH : ''
+  list = Dir.glob('*', hidden_files, base: base).sort
   print_list(list, COLUMNS)
 end
 
