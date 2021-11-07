@@ -6,10 +6,11 @@ require 'optparse'
 COLUMNS = 3
 
 def file_list(directory)
-  options = ARGV.getopts('a')
+  options = ARGV.getopts('a', 'r')
   base = directory.empty? ? '' : directory[0]&.to_s
   flags = options['a'] ? File::FNM_DOTMATCH : 0
   list = Dir.glob('*', flags, base: base).sort
+  list.reverse! if options['r']
   print_list(list, COLUMNS)
 end
 
