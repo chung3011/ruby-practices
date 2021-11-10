@@ -43,7 +43,7 @@ def print_opt_l(list)
     owner_name = Etc.getpwuid(status.uid).name.to_s.rjust(10)
     group_name = Etc.getgrgid(status.gid).name.to_s.rjust(6)
     size = status.size.to_s.rjust(5)
-    time_stamp = status.mtime.strftime(' %b%e %H:%M').rjust(10)
+    time_stamp = status.mtime.strftime(' %b %e %H:%M').rjust(10)
     name = File.basename(f)
     puts "#{type}#{owner}#{group}#{other}#{nlink}#{owner_name}#{group_name}#{size}#{time_stamp} #{name}"
   end
