@@ -14,7 +14,7 @@ def info(agv)
   [lines, words, bytesize]
 end
 
-def render(input)
+def render(input, options)
   total_lines = 0
   total_words = 0
   total_bytesize = 0
@@ -25,24 +25,25 @@ def render(input)
     else
       file = File.read(agv)
       output = info(file)
-      output.each { |o| print o.to_text }
+      options['l'] ? (print output[0].to_text) : (output.each { |o| print o.to_text })
       print " #{agv}\n"
       total_lines += output[0]
       total_words += output[1]
       total_bytesize += output[2]
     end
   end
-  puts "#{total_lines.to_text}#{total_words.to_text}#{total_bytesize.to_text} total" if input.size > 1
+  puts(options['l'] ? "#{total_lines.to_text} total" : "#{total_lines.to_text}#{total_words.to_text}#{total_bytesize.to_text} total") if input.size > 1
 end
 
 def main
+  options = ARGV.getopts('l')
   if ARGV.empty?
     input = $stdin.read
     output = info(input)
     output.each { |o| print o.to_text }
     puts
   else
-    render(ARGV)
+    render(ARGV, options)
   end
 end
 
