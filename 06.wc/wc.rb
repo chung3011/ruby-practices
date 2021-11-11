@@ -7,7 +7,7 @@ class Numeric
   def to_text() = to_s.rjust(8)
 end
 
-def info(agv)
+def wc_output(agv)
   lines = agv.lines.count
   words = agv.split.size
   bytesize = agv.bytesize
@@ -24,12 +24,14 @@ def render(input, options)
       puts "wc: #{agv}: read: Is a #{type}"
     else
       file = File.read(agv)
-      output = info(file)
-      options['l'] ? (print output[0].to_text) : (output.each { |o| print o.to_text })
+      lines, words, bytesize = wc_output(file)
+      options['l'] ? (print lines.to_text) : (print "#{lines.to_text}#{words.to_text}#{bytesize.to_text}")
       print " #{agv}\n"
-      total_lines += output[0]
-      total_words += output[1]
-      total_bytesize += output[2]
+      total_lines += lines
+      next if options['l']
+
+      total_words += words
+      total_bytesize += bytesize
     end
   end
   puts(options['l'] ? "#{total_lines.to_text} total" : "#{total_lines.to_text}#{total_words.to_text}#{total_bytesize.to_text} total") if input.size > 1
@@ -39,8 +41,8 @@ def main
   options = ARGV.getopts('l')
   if ARGV.empty?
     input = $stdin.read
-    output = info(input)
-    output.each { |o| print o.to_text }
+    lines, words, bytesize = wc_output(input)
+    print "#{lines.to_text}#{words.to_text}#{bytesize.to_text}"
     puts
   else
     render(ARGV, options)
