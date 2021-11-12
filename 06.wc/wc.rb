@@ -42,8 +42,7 @@ def main
   if ARGV.empty?
     input = $stdin.read
     lines, words, bytesize = wc_output(input)
-    print "#{lines.to_text}#{words.to_text}#{bytesize.to_text}"
-    puts
+    puts options['l'] ? lines.to_text.to_s : "#{lines.to_text}#{words.to_text}#{bytesize.to_text}"
   else
     render(ARGV, options)
   end
