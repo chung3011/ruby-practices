@@ -21,6 +21,6 @@ class Frame
   end
 
   def spare?
-    @first_shot.score + @second_shot.score == MAX_SCORE
+    @first_shot.score + @second_shot.score == MAX_SCORE && !strike?
   end
 end
