@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
 require 'optparse'
-require './file_info'
+require './opt_l'
+require './printer'
 
 class FileList
   attr_reader :list, :option_l, :path
-
-  COLUMNS = 3
 
   def initialize(argv)
     options = argv.getopts('a', 'r', 'l')
@@ -19,31 +18,6 @@ class FileList
   end
 
   def output
-    @option_l ? print_opt_l : print_list
-  end
-
-  private
-
-  def print_list
-    rows = (@list.size.to_f / COLUMNS).ceil
-    rows.times do |row|
-      COLUMNS.times do |col|
-        break if row + rows * col >= @list.size
-
-        print @list[row + rows * col].ljust(20)
-      end
-      puts
-    end
-  end
-
-  def print_opt_l
-    @list = @path ? @list.map { |f| "#{@path}/#{f}" } : @list
-    blocks = @list.map { |f| File::Stat.new(f).blocks }
-    puts "total #{blocks.sum}"
-
-    @list.each do |f|
-      file_info = FileInfo.new(f)
-      file_info.output
-    end
+    @option_l ? OptL.output(@list, @path) : Printer.put(@list)
   end
 end
