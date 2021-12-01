@@ -2,7 +2,7 @@
 
 require './file_info'
 
-class OptL
+class OptLPrinter
   def self.output(list, path)
     list = path ? list.map { |f| "#{path}/#{f}" } : list
     blocks = list.map { |f| File::Stat.new(f).blocks }
