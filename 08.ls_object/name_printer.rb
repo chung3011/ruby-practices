@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Printer
+class NamePrinter
   COLUMNS = 3
   def self.put(list)
     rows = (list.size.to_f / COLUMNS).ceil

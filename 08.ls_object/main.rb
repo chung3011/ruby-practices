@@ -2,9 +2,9 @@
 # frozen_string_literal: true
 
 require './file_list'
-require './opt_l_printer'
-require './printer'
+require './detail_printer'
+require './name_printer'
 
 file_list = FileList.new(ARGV)
 
-file_list.option_l ? OptLPrinter.output(file_list.list, file_list.path) : Printer.put(file_list.list)
+file_list.option_l ? DetailPrinter.output(file_list.list, file_list.path) : NamePrinter.put(file_list.list)
